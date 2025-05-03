@@ -8,9 +8,14 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <div id="notification-container"></div>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4">
             <h2 class="text-center mb-4">Verify OTP</h2>
+            <div id="countdown" class="text-center mb-3"></div>
+            <div id="resend" class="text-center d-none">
+                <p>OTP has expired. <a href="#" id="resendLink">Resend OTP</a></p>
+            </div>
             <div id="error" class="alert alert-danger d-none"></div>
             <form id="otpForm">
                 <div class="mb-3">
@@ -21,6 +26,7 @@
             </form>
         </div>
     </div>
+    <script src="/js/notifications.js"></script>
     <script src="/js/verifyOtp.js"></script>
 </body>
 </html>

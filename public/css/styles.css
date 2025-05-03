@@ -4,7 +4,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Changed to overflow-x to allow vertical scroll if needed */
+    overflow-x: hidden;
 }
 
 /* Card Styling */
@@ -16,13 +16,20 @@ body {
     max-width: 400px;
     width: 100%;
     position: relative;
-    animation: fadeIn 0.5s ease-out; /* Replaced bounceIn with fadeIn */
+    user-select: none;
 }
 
 /* Simplified FadeIn Animation */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Form Inputs */
@@ -55,6 +62,31 @@ body {
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
 }
 
+/* Animated Button */
+.animated-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.animated-button .fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(0, 123, 255, 0.2);
+    transition: width 0.5s ease;
+}
+
+.animated-button.sending .fill {
+    width: 100%;
+    transition: width 3s linear;
+}
+
+.animated-button.success {
+    background-color: #28a745;
+}
+
 /* Alerts */
 .alert {
     border-radius: 5px;
@@ -70,8 +102,6 @@ body {
     transform: translateY(0);
 }
 
-/* Removed shake animation */
-
 /* Input Group (Password Toggle) */
 .input-group button {
     border: 1px solid #ced4da;
@@ -81,7 +111,7 @@ body {
 }
 
 .input-group button:hover {
-    background-color: #f8f9fa;
+    background-color: #fafafa;
 }
 
 /* Links */
@@ -98,11 +128,85 @@ body {
 
 /* Optional Pulse Animation for Buttons */
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .btn-primary:active {
     animation: pulse 0.3s ease;
+}
+
+/* Notification Container */
+#notification-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+.notification {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    max-width: 90%;
+    text-align: center;
+    transition: top 0.3s ease, opacity 0.3s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+}
+
+.password-rules {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.rule {
+    margin: 0.2rem 0;
+    color: #6c757d;
+}
+
+[data-barba="container"] {
+    will-change: transform, filter;
+}
+
+.fade-enter {
+    opacity: 0;
+    transition-delay: 0.2s;
+}
+
+.fade-enter-active {
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-leave {
+    opacity: 1;
+}
+
+.fade-leave-active {
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }

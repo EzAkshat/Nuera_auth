@@ -1,0 +1,30 @@
+<script>
+  console.log('authComplete.ejs script running');
+  if (window.opener) {
+    console.log('Has opener');
+    <% if (code) { %>
+      console.log('Posting googleAuthSuccess with code: <%= code %>');
+      window.opener.postMessage(
+        { type: 'googleAuthSuccess', code: '<%= code %>' },
+        '<%= appUrl %>'
+      );
+    <% } else if (error) { %>
+      console.log('Posting googleAuthFailure with message: <%= error %>');
+      window.opener.postMessage(
+        { type: 'googleAuthFailure', message: '<%= error %>' },
+        '<%= appUrl %>'
+      );
+    <% } %>
+    setTimeout(() => {
+      console.log('Closing popup');
+      window.close();
+    }, 1000); // Delay closing by 1 second
+  } else {
+    console.log('No opener');
+    <% if (code) { %>
+      document.write('<p>Authentication successful. <a href="Nuera://auth-complete?code=<%= code %>">Click here to open the app</a></p>');
+    <% } else if (error) { %>
+      document.write('<p>Error: <%= error %></p>');
+    <% } %>
+  }
+</script>

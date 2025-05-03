@@ -4,6 +4,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = urlParams.get('email');
     const type = urlParams.get('type');
 
+    let timeLeft = 60;
+    let countdownInterval;
+
+    function startCountdown() {
+        const countdownEl = document.getElementById('countdown');
+        countdownEl.textContent = `Time left: ${timeLeft} seconds`;
+        countdownInterval = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                countdownEl.textContent = `Time left: ${timeLeft} seconds`;
+            } else {
+                clearInterval(countdownInterval);
+                countdownEl.textContent = '';
+                document.getElementById('resend').classList.remove('d-none');
+            }
+        }, 1000);
+    }
+
+    startCountdown();
+
+    document.getElementById('resendLink').addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/resend-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, type })
+            });
+            const result = await response.json();
+            if (result.success) {
+                showNotification('OTP has been resent', 'success');
+                timeLeft = 60;
+                document.getElementById('resend').classList.add('d-none');
+                startCountdown();
+            } else {
+                showError(result.error);
+            }
+        } catch (err) {
+            showError('An error occurred. Please try again.');
+        }
+    });
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const otp = document.getElementById('otp').value;
@@ -25,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showError(message) {
-        const errorDiv = document.getElementById('error');
-        errorDiv.textContent = message;
-        errorDiv.classList.remove('d-none');
-        setTimeout(() => errorDiv.classList.add('show'), 10); // Small delay for transition
-      }
+        showNotification(message, 'error');
+    }
 });

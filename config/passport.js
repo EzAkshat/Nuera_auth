@@ -4,7 +4,6 @@ const User = require('../models/User');
 const logger = require('winston');
 require('dotenv').config();
 
-
 passport.use(
   new GoogleStrategy(
     {
@@ -15,28 +14,22 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await User.findOne({ googleId: profile.id });
-        if (user) {
-          logger.info(`User logged in with Google: ${user.email}`);
-          return done(null, user);
-        }
+        if (user) return done(null, user);
         user = await User.findOne({ email: profile.emails[0].value });
         if (user) {
-          user.googleId = profile.id;
-          await user.save();
-          logger.info(`Linked Google ID to existing user: ${user.email}`);
-          return done(null, user);
+          return done(null, false, { message: 'This email is already registered. Please log in with your password.' });
         }
+        const username = await User.generateUniqueUsername(profile.displayName);
         user = new User({
           googleId: profile.id,
           email: profile.emails[0].value,
-          name: profile.displayName,
+          username: username, // Use username instead of name
           isVerified: true,
         });
         await user.save();
-        logger.info(`New user created via Google: ${user.email}`);
         done(null, user);
       } catch (err) {
-        logger.error('Passport Google Strategy error:', err);
+        logger.error('Google Strategy error:', err);
         done(err, null);
       }
     }

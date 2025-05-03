@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const eyeIconPassword = togglePassword.querySelector('img');
     const eyeIconConfirmPassword = toggleConfirmPassword.querySelector('img');
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('code');
+    const code = urlParams.get('code'); // Renamed from token to code for consistency
 
     togglePassword.addEventListener('click', () => {
         const type = passwordInput.type === 'password' ? 'text' : 'password';
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/reset-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code, password })
+                body: JSON.stringify({ code, password }) // Fixed to use code instead of undefined variable
             });
             const result = await response.json();
             if (result.success) {
@@ -54,9 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showError(message) {
-        const errorDiv = document.getElementById('error');
-        errorDiv.textContent = message;
-        errorDiv.classList.remove('d-none');
-        setTimeout(() => errorDiv.classList.add('show'), 10); // Small delay for transition
+        showNotification(message, 'error');
     }
 });

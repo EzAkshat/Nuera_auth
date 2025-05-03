@@ -52,7 +52,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', require('./routes/auth'));
-app.use('/auth', require('./routes/google'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
