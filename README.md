@@ -1,23 +1,27 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-<img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
-<img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
-<img src="https://img.shields.io/badge/Passport.js-34E27A?style=for-the-badge&logo=passport&logoColor=white" />
-<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" />
-<img src="https://img.shields.io/badge/License-ISC-blue?style=for-the-badge" />
-
-<br /><br />
+<br />
 
 # 🔐 Nuera Auth System
 
 **A production-ready, full-featured authentication backend built with Node.js & Express.**  
 Supports email/password registration with OTP verification, Google OAuth 2.0, JWT-based sessions, and secure password reset flows — all wired to MongoDB.
 
-<br />
 
-[Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Auth Flow](#-authentication-flow) · [Folder Structure](#-folder-structure) 
 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=13&pause=2000&color=6B7280&center=true&vCenter=true&repeat=true&width=480&lines=Email+%2B+OTP+Registration;Google+OAuth+2.0+Sign-In;JWT-based+Stateless+Auth;Secure+Password+Reset+Flow;Structured+Logging+with+Winston" alt="Typing SVG" />
+
+
+[Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [API Reference](#-api-reference) · [Auth Flow](#-authentication-flow) · [Folder Structure](#-folder-structure) · [Security](#️-security)
+
+
+<p>
+  <img src="https://img.shields.io/badge/Node.js-18+-000?style=flat-square&logo=node.js&logoColor=4ade80&labelColor=111" />
+  <img src="https://img.shields.io/badge/Express-5-000?style=flat-square&logo=express&logoColor=fff&labelColor=111" />
+  <img src="https://img.shields.io/badge/MongoDB-000?style=flat-square&logo=mongodb&logoColor=4ade80&labelColor=111" />
+  <img src="https://img.shields.io/badge/Passport.js-000?style=flat-square&logo=passport&logoColor=34E27A&labelColor=111" />
+  <img src="https://img.shields.io/badge/JWT-000?style=flat-square&logo=jsonwebtokens&logoColor=fff&labelColor=111" />
+</p>
 </div>
 
 ---
@@ -69,8 +73,8 @@ Supports email/password registration with OTP verification, Google OAuth 2.0, JW
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/nuera-auth-system.git
-cd nuera-auth-system/backend
+git clone https://github.com/EzAkshat/Nuera_auth
+cd Nuera_auth
 ```
 
 ### 2. Install dependencies
@@ -84,7 +88,7 @@ npm install
 Copy the example env file and fill in your values:
 
 ```bash
-cp ../.env .env
+cp .env.example .env
 ```
 
 ```env
@@ -113,41 +117,65 @@ The server will be live at **`http://localhost:3000`**
 
 ## 📁 Folder Structure
 
-```
-backend/
+```txt
+Nuera_auth/
+│
 ├── config/
-│   └── passport.js              # Google OAuth 2.0 Passport strategy
+│   └── passport.js              # Google OAuth Passport configuration
+│
 ├── controllers/
-│   └── authController.js        # Core business logic for all auth flows
+│   └── authController.js        # Core authentication logic
+│
 ├── emails/
-│   ├── registrationEmail.ejs    # Branded welcome / OTP email template
-│   └── forgotPasswordEmail.ejs  # Password reset email template
+│   ├── forgotPasswordEmail.ejs  # Password reset email template
+│   └── registrationEmail.ejs    # OTP / registration email template
+│
 ├── models/
-│   ├── User.js                  # Verified user schema
-│   ├── UnverifiedUser.js        # Temporary user pending OTP
-│   ├── OTP.js                   # OTP record with expiry
-│   └── TempCode.js              # Short-lived token for OAuth exchange
+│   ├── OTP.js                   # OTP schema with expiry
+│   ├── TempCode.js              # Temporary OAuth exchange code
+│   ├── UnverifiedUser.js        # Pending user model
+│   └── User.js                  # Main user schema
+│
 ├── public/
+│   ├── css/
+│   │   └── styles.css           # Global styles
+│   │
+│   ├── img/
+│   │   ├── eye-close.svg
+│   │   └── eye-open.svg
+│   │
+│   ├── js/
+│   │   ├── forgotPassword.js
+│   │   ├── login.js
+│   │   ├── notifications.js
+│   │   ├── register.js
+│   │   ├── resetPassword.js
+│   │   └── verifyOtp.js
+│   │
+│   ├── forgotPassword.html
 │   ├── login.html
 │   ├── register.html
-│   ├── verifyOtp.html
-│   ├── forgotPassword.html
 │   ├── resetPassword.html
-│   ├── css/styles.css
-│   ├── js/                      # Client-side JS per page
-│   └── img/                     # UI assets
+│   └── verifyOtp.html
+│
 ├── routes/
-│   ├── auth.js                  # All authentication endpoints
+│   ├── auth.js                  # Authentication routes
 │   └── google.js                # Google OAuth routes
+│
 ├── services/
-│   └── emailService.js          # Nodemailer transporter & send helpers
+│   └── emailService.js          # Nodemailer utilities
+│
 ├── utils/
-│   └── jwt.js                   # JWT sign / verify utilities
+│   └── jwt.js                   # JWT helper functions
+│
 ├── views/
-│   └── authComplete.ejs         # OAuth completion handshake view
-├── .env
-├── server.js                    # Application entry point
-└── package.json
+│   └── authComplete.ejs         # OAuth completion page
+│
+├── .env.example                 # Example environment variables
+├── .gitignore                   # Ignored files/folders
+├── package.json                 # Dependencies & scripts
+├── README.md                    # Project documentation
+└── server.js                    # App entry point
 ```
 
 ---
@@ -283,14 +311,14 @@ Thin utility layer around `jsonwebtoken` — exposes `signToken` and `verifyToke
 
 ## 🔮 Future Improvements
 
-- [ ] Rate limiting on `/login`, `/register`, and `/resend-otp` (`express-rate-limit`)
-- [ ] Refresh token support with rotation
-- [ ] Multi-factor authentication (TOTP / Authenticator apps)
-- [ ] Role-based access control (RBAC)
-- [ ] Redis-backed sessions for horizontal scaling
-- [ ] Swagger / OpenAPI documentation
-- [ ] Unit + integration test suite (Jest / Supertest)
-- [ ] Docker + docker-compose for one-command dev environment
+- Rate limiting on `/login`, `/register`, and `/resend-otp` (`express-rate-limit`)
+- Refresh token support with rotation
+- Multi-factor authentication (TOTP / Authenticator apps)
+- Role-based access control (RBAC)
+- Redis-backed sessions for horizontal scaling
+- Swagger / OpenAPI documentation
+- Unit + integration test suite (Jest / Supertest)
+- Docker + docker-compose for one-command dev environment
 
 ---
 
@@ -299,14 +327,14 @@ Thin utility layer around `jsonwebtoken` — exposes `signToken` and `verifyToke
 Built with ❤️ by **[Akshat](https://github.com/EzAkshat)**
 
 <a href="https://github.com/EzAkshat">
-  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub-EzAkshat-000?style=flat-square&logo=github&logoColor=white&labelColor=111" />
 </a>
+&nbsp;
 <a href="https://www.linkedin.com/in/naik-akshat">
-  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  <img src="https://img.shields.io/badge/LinkedIn-naik--akshat-0077B5?style=flat-square&logo=linkedin&logoColor=white&labelColor=111" />
 </a>
 
 ---
-
 
 <div align="center">
   <sub>⭐ Star this repo if it helped you — it means a lot!</sub>
